@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: bank-system-app
+  datasource:
+    url: jdbc:mysql://localhost:3306/pos_yt
+    username: root
+    password: mysql
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+
+server:
+  port: 8081
