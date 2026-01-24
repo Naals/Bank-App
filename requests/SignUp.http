@@ -1,0 +1,11 @@
+### POST request to SignUp
+POST http://localhost:8081/auth/signup
+Content-Type: application/json
+
+{
+  "fullName": "User user",
+  "email": "user@gmail.com",
+  "phone": "123123",
+  "password": "user",
+  "role": "ROLE_USER"
+}

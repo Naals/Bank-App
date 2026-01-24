@@ -1,0 +1,8 @@
+### POST request to Login
+POST http://localhost:8081/auth/login
+Content-Type: application/json
+
+{
+  "email": "user@gmail.com",
+  "password": "user"
+}
