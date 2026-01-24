@@ -13,7 +13,7 @@ import java.util.*;
 @Service
 public class JwtProvider {
 
-    static SecretKey keys = Keys.hmacShaKeyFor(JwtConstant.JWT_SECRET.getBytes());
+    static final SecretKey keys = Keys.hmacShaKeyFor(JwtConstant.JWT_SECRET.getBytes());
 
     public String generateToken(Authentication auth) {
 

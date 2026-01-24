@@ -1,13 +1,22 @@
 package com.project.banksystemapp.service.impl;
 
 import com.project.banksystemapp.configurations.JwtProvider;
+import com.project.banksystemapp.domain.UserRole;
+import com.project.banksystemapp.exceptions.UserException;
+import com.project.banksystemapp.mapper.UserMapper;
+import com.project.banksystemapp.modal.User;
 import com.project.banksystemapp.payload.dto.UserDto;
 import com.project.banksystemapp.payload.response.AuthResponse;
 import com.project.banksystemapp.repository.UserRepository;
 import com.project.banksystemapp.service.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -19,8 +28,40 @@ public class AuthServiceImpl implements AuthService {
     private final CustomerUserImplementation customerUserImplementation;
 
     @Override
-    public AuthResponse signUp(UserDto userDto) {
-        return null;
+    public AuthResponse signUp(UserDto userDto) throws UserException {
+
+        User user = userRepository.findByEmail(userDto.getEmail());
+        if (user != null) {
+            throw new UserException("Email already in use");
+        }
+        if(userDto.getRole().equals(UserRole.ROLE_ADMIN)){
+            throw new UserException("Role admin is not allowed");
+        }
+
+        User newUser = new User();
+        newUser.setEmail(userDto.getEmail());
+        newUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        newUser.setRole(userDto.getRole());
+        newUser.setFullName(userDto.getFullName());
+        newUser.setPhone(userDto.getPhone());
+        newUser.setLastLogin(LocalDateTime.now());
+        newUser.setCreatedAt(LocalDateTime.now());
+
+        newUser.setUpdatedAt(LocalDateTime.now());
+
+        User savedUser = userRepository.save(newUser);
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userDto.getEmail(), userDto.getPassword());
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String jwt = jwtProvider.generateToken(authentication);
+
+        AuthResponse authResponse = new AuthResponse();
+        authResponse.setJwt(jwt);
+        authResponse.setMessage("Registered successful");
+        authResponse.setUser(UserMapper.toUserDto(savedUser));
+        return authResponse;
     }
 
     @Override
