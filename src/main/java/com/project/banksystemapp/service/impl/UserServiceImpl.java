@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
 
         User user = userRepository.findByEmail(email);
         if (user == null) {
-            throw new UserException("Invalid user");
+            throw new UserException("Invalid user email");
         }
 
         return user;
