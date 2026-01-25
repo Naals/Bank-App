@@ -22,8 +22,6 @@ public class Store {
     @Column(nullable = false)
     private String brand;
 
-    private String phone;
-
     @OneToOne
     private User storeAdmin;
 
