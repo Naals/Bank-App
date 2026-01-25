@@ -1,5 +1,7 @@
 package com.project.banksystemapp.service.impl;
 
+import com.project.banksystemapp.exceptions.UserException;
+import com.project.banksystemapp.mapper.StoreMapper;
 import com.project.banksystemapp.modal.Store;
 import com.project.banksystemapp.modal.User;
 import com.project.banksystemapp.payload.dto.StoreDto;
@@ -20,36 +22,64 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public StoreDto createStore(StoreDto storeDto, User user) {
-        return null;
+        Store store = StoreMapper.toEntity(storeDto, user);
+        Store savedStore = storeRepository.save(store);
+        return StoreMapper.toStoreDto(savedStore);
     }
 
     @Override
     public StoreDto getStoreById(Long id) {
-        return null;
+        Store store = storeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Store not found with id: " + id));
+        return StoreMapper.toStoreDto(store);
     }
 
     @Override
     public List<StoreDto> getAllStores() {
-        return List.of();
+        return storeRepository.findAll()
+                .stream()
+                .map(StoreMapper::toStoreDto)
+                .toList();
     }
 
     @Override
-    public Store getStoreByAdmin() {
-        return null;
+    public Store getStoreByAdmin() throws UserException {
+        User currentUser = userService.getCurrentUser();
+        return storeRepository.findByStoreAdminId(currentUser.getId());
     }
 
     @Override
-    public StoreDto updateStore(Long id, StoreDto storeDto) {
-        return null;
+    public StoreDto updateStore(Long id, StoreDto storeDto) throws UserException {
+        User currentUser = userService.getCurrentUser();
+
+        Store store = storeRepository.findByStoreAdminId(currentUser.getId());
+
+        if (store==null) {
+            throw new RuntimeException("Access denied: you are not the owner of this store");
+        }
+
+        Store updatedStore = StoreMapper.updateEntity(store, storeDto);
+        Store savedStore = storeRepository.save(updatedStore);
+
+        return StoreMapper.toStoreDto(savedStore);
     }
 
     @Override
-    public StoreDto deleteStore(Long id) {
-        return null;
+    public void deleteStore() throws UserException {
+        Store store = getStoreByAdmin();
+
+        storeRepository.delete(store);
     }
 
     @Override
-    public StoreDto getStoreByEmployee() {
-        return null;
+    public StoreDto getStoreByEmployee() throws UserException {
+        User currentUser = userService.getCurrentUser();
+
+        if(currentUser==null){
+            throw new UserException("You are not logged in");
+        }
+
+        return StoreMapper.toStoreDto(currentUser.getStore());
     }
 }
+

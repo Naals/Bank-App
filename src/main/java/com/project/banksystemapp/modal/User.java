@@ -29,6 +29,9 @@ public class User {
 
     private String phone;
 
+    @ManyToOne
+    private Store store;
+
     private String password;
 
     @Column(nullable = false)

@@ -1,12 +1,15 @@
 package com.project.banksystemapp.mapper;
 
 import com.project.banksystemapp.modal.Store;
+import com.project.banksystemapp.modal.StoreContact;
 import com.project.banksystemapp.modal.User;
 import com.project.banksystemapp.payload.dto.StoreDto;
 
 public class StoreMapper {
 
-    public StoreDto toStoreDto(Store store) {
+    private StoreMapper() {}
+
+    public static StoreDto toStoreDto(Store store) {
         StoreDto storeDto = new StoreDto();
         storeDto.setId(store.getId());
         storeDto.setBrand(store.getBrand());
@@ -19,7 +22,7 @@ public class StoreMapper {
         return storeDto;
     }
 
-    public Store toEntity(StoreDto storeDto, User storeAdmin) {
+    public static Store toEntity(StoreDto storeDto, User storeAdmin) {
         Store store = new Store();
         store.setId(storeDto.getId());
         store.setBrand(storeDto.getBrand());
@@ -33,4 +36,22 @@ public class StoreMapper {
     }
 
 
+    public static Store updateEntity(Store store, StoreDto storeDto) {
+        store.setBrand(storeDto.getBrand());
+        store.setDescription(storeDto.getDescription());
+        if(storeDto.getStoreType() != null) {
+            store.setStoreType(storeDto.getStoreType());
+        }
+        if(storeDto.getContact() != null) {
+            StoreContact contact = StoreContact.builder()
+                    .address(storeDto.getContact().getAddress())
+                    .phone(storeDto.getContact().getPhone())
+                    .email(storeDto.getContact().getEmail())
+                    .build();
+            store.setStoreContact(contact);
+        }
+
+        return store;
+
+    }
 }
