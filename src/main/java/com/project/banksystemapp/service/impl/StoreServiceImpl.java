@@ -1,5 +1,6 @@
 package com.project.banksystemapp.service.impl;
 
+import com.project.banksystemapp.domain.StoreStatus;
 import com.project.banksystemapp.exceptions.UserException;
 import com.project.banksystemapp.mapper.StoreMapper;
 import com.project.banksystemapp.modal.Store;
@@ -80,6 +81,17 @@ public class StoreServiceImpl implements StoreService {
         }
 
         return StoreMapper.toStoreDto(currentUser.getStore());
+    }
+
+    @Override
+    public StoreDto moderateStore(Long id, StoreStatus storeStatus) throws Exception {
+        Store store = storeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Store not found with id: " + id));
+
+        store.setStatus(storeStatus);
+        Store savedStore = storeRepository.save(store);
+
+        return StoreMapper.toStoreDto(savedStore);
     }
 }
 

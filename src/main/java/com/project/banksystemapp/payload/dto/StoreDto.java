@@ -1,6 +1,6 @@
 package com.project.banksystemapp.payload.dto;
 
-import com.project.banksystemapp.domain.StroreStatus;
+import com.project.banksystemapp.domain.StoreStatus;
 import com.project.banksystemapp.modal.StoreContact;
 import lombok.Data;
 
@@ -24,7 +24,7 @@ public class StoreDto {
 
     private String storeType;
 
-    private StroreStatus status;
+    private StoreStatus status;
 
     private StoreContact contact;
 }

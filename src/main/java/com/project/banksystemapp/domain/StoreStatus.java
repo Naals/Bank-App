@@ -1,6 +1,6 @@
 package com.project.banksystemapp.domain;
 
-public enum StroreStatus {
+public enum StoreStatus {
     ACTIVE,
     PENDING,
     BLOCKED

@@ -1,7 +1,7 @@
 package com.project.banksystemapp.modal;
 
 
-import com.project.banksystemapp.domain.StroreStatus;
+import com.project.banksystemapp.domain.StoreStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -34,7 +34,7 @@ public class Store {
 
     private String storeType;
 
-    private StroreStatus status;
+    private StoreStatus status;
 
     @Embedded
     private StoreContact storeContact = new StoreContact();
@@ -42,7 +42,7 @@ public class Store {
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
-        status = StroreStatus.PENDING;
+        status = StoreStatus.PENDING;
     }
 
     @PreUpdate
