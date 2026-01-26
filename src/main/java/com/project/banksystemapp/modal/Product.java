@@ -1,7 +1,6 @@
 package com.project.banksystemapp.modal;
 
 
-import com.project.banksystemapp.domain.StoreStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,6 +9,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode

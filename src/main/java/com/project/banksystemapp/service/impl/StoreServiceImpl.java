@@ -12,6 +12,7 @@ import com.project.banksystemapp.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 @Service
@@ -46,17 +47,19 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public Store getStoreByAdmin() throws UserException {
         User currentUser = userService.getCurrentUser();
-        return storeRepository.findByStoreAdminId(currentUser.getId());
+        return storeRepository.findByStoreAdminId(currentUser.getId())
+                .orElseThrow(() -> new RuntimeException("Store not found with admin id: " + currentUser.getId()));
     }
 
     @Override
-    public StoreDto updateStore(Long id, StoreDto storeDto) throws UserException {
+    public StoreDto updateStore(Long id, StoreDto storeDto) throws UserException, AccessDeniedException {
         User currentUser = userService.getCurrentUser();
 
-        Store store = storeRepository.findByStoreAdminId(currentUser.getId());
+        Store store = storeRepository.findByStoreAdminId(currentUser.getId())
+                .orElseThrow(() -> new RuntimeException("Store not found with admin id: " + currentUser.getId()));
 
         if (store==null) {
-            throw new RuntimeException("Access denied: you are not the owner of this store");
+            throw new AccessDeniedException("Access denied: you are not the owner of this store");
         }
 
         Store updatedStore = StoreMapper.updateEntity(store, storeDto);
@@ -84,7 +87,7 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public StoreDto moderateStore(Long id, StoreStatus storeStatus) throws Exception {
+    public StoreDto moderateStore(Long id, StoreStatus storeStatus){
         Store store = storeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Store not found with id: " + id));
 

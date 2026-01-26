@@ -1,9 +1,12 @@
-package com.project.banksystemapp.domain;
+package com.project.banksystemapp.payload.dto;
 
-import com.project.banksystemapp.modal.Store;
+import lombok.Builder;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
+@Data
+@Builder
 public class ProductDto {
 
     private Long id;
