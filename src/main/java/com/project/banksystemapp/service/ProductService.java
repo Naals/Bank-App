@@ -10,6 +10,6 @@ public interface ProductService {
     ProductDto createProduct(ProductDto productDto, User user) throws Exception;
     ProductDto updateProduct(Long id, ProductDto productDto, User user) throws Exception;
     void deleteProduct(Long id, User user);
-    List<ProductDto> getAllProductsByStoredId(User user);
-    List<ProductDto> searchByKeyword(User user, String keyword);
+    List<ProductDto> getAllProductsByStoredId(Long id);
+    List<ProductDto> searchByKeyword(Long id, String keyword);
 }

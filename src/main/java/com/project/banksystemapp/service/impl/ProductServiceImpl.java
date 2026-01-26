@@ -1,6 +1,5 @@
 package com.project.banksystemapp.service.impl;
 
-import com.project.banksystemapp.domain.UserRole;
 import com.project.banksystemapp.mapper.ProductMapper;
 import com.project.banksystemapp.modal.Product;
 import com.project.banksystemapp.modal.Store;
@@ -59,49 +58,24 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> getAllProductsByStoredId(User user) {
-        Store store = getStoreForUser(user);
-
-        return productRepository.findByStoreId(store.getId())
+    public List<ProductDto> getAllProductsByStoredId(Long id) {
+        return productRepository.findByStoreId(id)
                 .stream()
                 .map(ProductMapper::toProductDto)
                 .toList();
     }
 
     @Override
-    public List<ProductDto> searchByKeyword(User user, String keyword) {
-        Store store = getStoreForUser(user);
-
-
-        return productRepository.searchByKeyword(store.getId(), keyword)
+    public List<ProductDto> searchByKeyword(Long id, String keyword) {
+        return productRepository.searchByKeyword(id, keyword)
                 .stream()
                 .map(ProductMapper::toProductDto)
                 .toList();
     }
 
     /* ==========================
-       PRIVATE HELPERS
+       PRIVATE HELPER
        ========================== */
-
-    private Store getStoreForUser(User user) {
-
-        // Если пользователь — админ магазина
-        if (user.getRole() == UserRole.ROLE_STORE_MANAGER
-                || user.getRole() == UserRole.ROLE_ADMIN) {
-
-            return storeRepository.findByStoreAdminId(user.getId())
-                    .orElseThrow(() ->
-                            new RuntimeException("Store not found for admin"));
-        }
-
-        // Если сотрудник
-        if (user.getStore() != null) {
-            return user.getStore();
-        }
-
-        throw new AccessDeniedException("User is not assigned to any store");
-    }
-
 
     private void validateUserAccessToStore(User user, Store store) {
 

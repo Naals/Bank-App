@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 @RestController
@@ -69,7 +70,7 @@ public class StoreController {
             @PathVariable Long id,
             @RequestBody StoreDto storeDto,
             @RequestHeader("Authorization") String jwt
-    ) throws UserException {
+    ) throws UserException, AccessDeniedException {
 
         return ResponseEntity.ok(storeService.updateStore(id, storeDto));
     }

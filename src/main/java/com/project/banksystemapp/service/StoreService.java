@@ -7,6 +7,7 @@ import com.project.banksystemapp.modal.Store;
 import com.project.banksystemapp.modal.User;
 import com.project.banksystemapp.payload.dto.StoreDto;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 public interface StoreService {
@@ -15,7 +16,7 @@ public interface StoreService {
     StoreDto getStoreById(Long id);
     List<StoreDto> getAllStores();
     Store getStoreByAdmin() throws UserException;
-    StoreDto updateStore(Long id, StoreDto storeDto) throws UserException;
+    StoreDto updateStore(Long id, StoreDto storeDto) throws UserException, AccessDeniedException;
     void deleteStore() throws UserException;
     StoreDto getStoreByEmployee() throws UserException;
     StoreDto moderateStore(Long id, StoreStatus storeStatus) throws Exception;
