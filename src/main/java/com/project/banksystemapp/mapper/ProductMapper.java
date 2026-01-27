@@ -1,5 +1,6 @@
 package com.project.banksystemapp.mapper;
 
+import com.project.banksystemapp.modal.Category;
 import com.project.banksystemapp.payload.dto.ProductDto;
 import com.project.banksystemapp.modal.Product;
 import com.project.banksystemapp.modal.Store;
@@ -22,6 +23,7 @@ public final class ProductMapper {
                 .sellingPrice(product.getSellingPrice())
                 .brand(product.getBrand())
                 .image(product.getImage())
+                .category(CategoryMapper.toDto(product.getCategory()))
                 .storeId(product.getStore() != null ? product.getStore().getId() : null)
                 .createdAt(product.getCreatedAt())
                 .updatedAt(product.getUpdatedAt())
@@ -31,7 +33,7 @@ public final class ProductMapper {
     /**
      * Использовать для CREATE
      */
-    public static Product toEntity(ProductDto dto, Store store) {
+    public static Product toEntity(ProductDto dto, Store store, Category category) {
         if (dto == null) {
             return null;
         }
@@ -44,13 +46,14 @@ public final class ProductMapper {
                 .brand(dto.getBrand())
                 .image(dto.getImage())
                 .store(store)
+                .category(category)
                 .build();
     }
 
     /**
      * Использовать для UPDATE
      */
-    public static void updateEntity(Product product, ProductDto dto) {
+    public static void updateEntity(Product product, ProductDto dto, Category category) {
         if (product == null || dto == null) {
             return;
         }
@@ -72,6 +75,9 @@ public final class ProductMapper {
         }
         if (dto.getImage() != null) {
             product.setImage(dto.getImage());
+        }
+        if (dto.getCategoryId() != null) {
+            product.setCategory(category);
         }
     }
 }

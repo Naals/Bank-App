@@ -37,7 +37,9 @@ public class Product {
 
     @ManyToOne
     private Store store;
-//    private Category category;
+
+    @ManyToOne
+    private Category category;
 
 
     @PrePersist

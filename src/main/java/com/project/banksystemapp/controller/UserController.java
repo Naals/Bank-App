@@ -22,7 +22,7 @@ public class UserController {
             @RequestHeader("Authorization") String jwt
     ) throws UserException {
         User user = userService.getUserFromJwtToken(jwt);
-        return ResponseEntity.ok(UserMapper.toUserDto(user));
+        return ResponseEntity.ok(UserMapper.toDto(user));
     }
 
     @GetMapping("/{id}")
@@ -31,6 +31,6 @@ public class UserController {
             @PathVariable Long id
     )  {
         User user = userService.getUserById(id);
-        return ResponseEntity.ok(UserMapper.toUserDto(user));
+        return ResponseEntity.ok(UserMapper.toDto(user));
     }
 }

@@ -1,10 +1,12 @@
 package com.project.banksystemapp.service.impl;
 
 import com.project.banksystemapp.mapper.ProductMapper;
+import com.project.banksystemapp.modal.Category;
 import com.project.banksystemapp.modal.Product;
 import com.project.banksystemapp.modal.Store;
 import com.project.banksystemapp.payload.dto.ProductDto;
 import com.project.banksystemapp.modal.User;
+import com.project.banksystemapp.repository.CategoryRepository;
 import com.project.banksystemapp.repository.ProductRepository;
 import com.project.banksystemapp.repository.StoreRepository;
 import com.project.banksystemapp.service.ProductService;
@@ -19,6 +21,7 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
     private final StoreRepository storeRepository;
 
     @Override
@@ -28,7 +31,10 @@ public class ProductServiceImpl implements ProductService {
 
         validateUserAccessToStore(user, store);
 
-        Product product = ProductMapper.toEntity(productDto, store);
+        Category category = categoryRepository.findById(productDto.getCategoryId())
+                .orElseThrow(() -> new Exception("Category not found"));
+
+        Product product = ProductMapper.toEntity(productDto, store, category);
         Product savedProduct = productRepository.save(product);
 
         return ProductMapper.toDto(savedProduct);
@@ -41,7 +47,10 @@ public class ProductServiceImpl implements ProductService {
 
         validateUserAccessToStore(user, product.getStore());
 
-        ProductMapper.updateEntity(product, productDto);
+        Category category = categoryRepository.findById(productDto.getCategoryId())
+                .orElseThrow(() -> new Exception("Category not found"));
+
+        ProductMapper.updateEntity(product, productDto, category);
         Product updatedProduct = productRepository.save(product);
 
         return ProductMapper.toDto(updatedProduct);
