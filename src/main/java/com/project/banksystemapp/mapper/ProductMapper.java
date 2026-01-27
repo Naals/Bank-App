@@ -9,7 +9,7 @@ public final class ProductMapper {
     private ProductMapper() {
     }
 
-    public static ProductDto toProductDto(Product product) {
+    public static ProductDto toDto(Product product) {
         if (product == null) {
             return null;
         }

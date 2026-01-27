@@ -26,21 +26,21 @@ public class StoreServiceImpl implements StoreService {
     public StoreDto createStore(StoreDto storeDto, User user) {
         Store store = StoreMapper.toEntity(storeDto, user);
         Store savedStore = storeRepository.save(store);
-        return StoreMapper.toStoreDto(savedStore);
+        return StoreMapper.toDto(savedStore);
     }
 
     @Override
     public StoreDto getStoreById(Long id) {
         Store store = storeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Store not found with id: " + id));
-        return StoreMapper.toStoreDto(store);
+        return StoreMapper.toDto(store);
     }
 
     @Override
     public List<StoreDto> getAllStores() {
         return storeRepository.findAll()
                 .stream()
-                .map(StoreMapper::toStoreDto)
+                .map(StoreMapper::toDto)
                 .toList();
     }
 
@@ -65,7 +65,7 @@ public class StoreServiceImpl implements StoreService {
         Store updatedStore = StoreMapper.updateEntity(store, storeDto);
         Store savedStore = storeRepository.save(updatedStore);
 
-        return StoreMapper.toStoreDto(savedStore);
+        return StoreMapper.toDto(savedStore);
     }
 
     @Override
@@ -83,7 +83,7 @@ public class StoreServiceImpl implements StoreService {
             throw new UserException("You are not logged in");
         }
 
-        return StoreMapper.toStoreDto(currentUser.getStore());
+        return StoreMapper.toDto(currentUser.getStore());
     }
 
     @Override
@@ -94,7 +94,7 @@ public class StoreServiceImpl implements StoreService {
         store.setStatus(storeStatus);
         Store savedStore = storeRepository.save(store);
 
-        return StoreMapper.toStoreDto(savedStore);
+        return StoreMapper.toDto(savedStore);
     }
 }
 

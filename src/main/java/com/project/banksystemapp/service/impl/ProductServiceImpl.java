@@ -31,7 +31,7 @@ public class ProductServiceImpl implements ProductService {
         Product product = ProductMapper.toEntity(productDto, store);
         Product savedProduct = productRepository.save(product);
 
-        return ProductMapper.toProductDto(savedProduct);
+        return ProductMapper.toDto(savedProduct);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class ProductServiceImpl implements ProductService {
         ProductMapper.updateEntity(product, productDto);
         Product updatedProduct = productRepository.save(product);
 
-        return ProductMapper.toProductDto(updatedProduct);
+        return ProductMapper.toDto(updatedProduct);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductDto> getAllProductsByStoredId(Long id) {
         return productRepository.findByStoreId(id)
                 .stream()
-                .map(ProductMapper::toProductDto)
+                .map(ProductMapper::toDto)
                 .toList();
     }
 
@@ -69,7 +69,7 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductDto> searchByKeyword(Long id, String keyword) {
         return productRepository.searchByKeyword(id, keyword)
                 .stream()
-                .map(ProductMapper::toProductDto)
+                .map(ProductMapper::toDto)
                 .toList();
     }
 

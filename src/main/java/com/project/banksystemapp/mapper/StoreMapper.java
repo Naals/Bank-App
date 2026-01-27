@@ -9,11 +9,11 @@ public class StoreMapper {
 
     private StoreMapper() {}
 
-    public static StoreDto toStoreDto(Store store) {
+    public static StoreDto toDto(Store store) {
         StoreDto storeDto = new StoreDto();
         storeDto.setId(store.getId());
         storeDto.setBrand(store.getBrand());
-        storeDto.setStoreAdmin(UserMapper.toUserDto(store.getStoreAdmin()));
+        storeDto.setStoreAdmin(UserMapper.toDto(store.getStoreAdmin()));
         storeDto.setContact(store.getStoreContact());
         storeDto.setDescription(store.getDescription());
         storeDto.setStoreType(store.getStoreType());

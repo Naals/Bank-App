@@ -63,7 +63,7 @@ public class AuthServiceImpl implements AuthService {
         AuthResponse authResponse = new AuthResponse();
         authResponse.setJwt(jwt);
         authResponse.setMessage("Registered successful");
-        authResponse.setUser(UserMapper.toUserDto(savedUser));
+        authResponse.setUser(UserMapper.toDto(savedUser));
         return authResponse;
     }
 
@@ -91,7 +91,7 @@ public class AuthServiceImpl implements AuthService {
         AuthResponse authResponse = new AuthResponse();
         authResponse.setJwt(jwt);
         authResponse.setMessage("Login successful");
-        authResponse.setUser(UserMapper.toUserDto(user));
+        authResponse.setUser(UserMapper.toDto(user));
         return authResponse;
     }
 
