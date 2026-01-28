@@ -5,7 +5,7 @@ import com.project.banksystemapp.modal.StoreContact;
 import com.project.banksystemapp.modal.User;
 import com.project.banksystemapp.payload.dto.StoreDto;
 
-public class StoreMapper {
+public final class StoreMapper {
 
     private StoreMapper() {}
 

@@ -4,7 +4,7 @@ import com.project.banksystemapp.modal.User;
 import com.project.banksystemapp.payload.dto.UserDto;
 
 
-public class UserMapper {
+public final class UserMapper {
 
     private UserMapper() {}
 

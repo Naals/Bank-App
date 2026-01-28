@@ -4,7 +4,7 @@ import com.project.banksystemapp.modal.Category;
 import com.project.banksystemapp.modal.Store;
 import com.project.banksystemapp.payload.dto.CategoryDto;
 
-public class CategoryMapper {
+public final class CategoryMapper {
 
     private CategoryMapper() {}
 
