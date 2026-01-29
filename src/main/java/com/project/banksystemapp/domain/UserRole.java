@@ -1,7 +1,7 @@
 package com.project.banksystemapp.domain;
 
-public enum UserRole {
 
+public enum UserRole {
     ROLE_USER,
     ROLE_ADMIN,
     ROLE_CASHIER,
