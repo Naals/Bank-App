@@ -1,0 +1,15 @@
+### GET request to example server
+POST http://localhost:8081/api/products
+Content-Type: application/json
+
+{
+  "name": "",
+  "sku": "",
+  "mrp": 0,
+  "sellingPrice": 0,
+  "brand": "",
+  "image": "",
+  "category": {},
+  "storeId": 0,
+  "categoryId": 0
+}

@@ -1,4 +1,4 @@
 ### GET request to example server
 @id = 1
 GET http://localhost:8081/api/user/{{id}}
-Authorization: eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NjkzNjc1MDgsImV4cCI6MTc2OTM3NjE0OCwiZW1haWwiOiJ1c2VyQGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjoiUk9MRV9VU0VSIn0.v1_nzf7azfhP3bnaz9VKJuRI6gwxHvmFTzf-PL0HafsWXw0L4vUlOEXyJD2s73Xr
+Authorization: eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3Njk1ODI3NjYsImV4cCI6MTc2OTU5MTQwNiwiZW1haWwiOiJ1c2VyQGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjoiUk9MRV9VU0VSIn0.JYEhvkD4vCmJM9D7yCu21rCVRZ49tcavbixcpassHvHiedw4SqTX1Z2hj8qUaYTc

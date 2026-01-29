@@ -1,0 +1,9 @@
+### GET request to example server
+POST http://localhost:8081/api/categories
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3Njk1ODUyODgsImV4cCI6MTc2OTU5MzkyOCwiZW1haWwiOiJ1c2VyQGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjoiUk9MRV9VU0VSIn0.BzoQT_lscnXfWPBT7Dko2YoIy2ttwmussjUYqwUHJXpeeREsYw983d6OQYHDLO1O
+
+{
+  "name": "Clothes",
+  "storeId": 1
+}

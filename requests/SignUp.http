@@ -3,9 +3,9 @@ POST http://localhost:8081/auth/signup
 Content-Type: application/json
 
 {
-  "fullName": "User user",
-  "email": "user@gmail.com",
+  "fullName": "User user3",
+  "email": "user3@gmail.com",
   "phone": "123123",
   "password": "user",
-  "role": "ROLE_USER"
+  "role": "ROLE_ADMIN"
 }
