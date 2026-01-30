@@ -77,6 +77,7 @@ public class BranchMapper {
         branch.setWorkingDays(dto.getWorkingDays());
         branch.setOpenTime(dto.getOpenTime());
         branch.setCloseTime(dto.getCloseTime());
+        branch.setUpdatedAt(LocalDateTime.now());
 
         if (store != null) {
             branch.setStore(store);
