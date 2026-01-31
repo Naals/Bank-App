@@ -15,6 +15,10 @@ public class InventoryDto {
 
     private ProductDto product;
 
+    private Long branchId;
+
+    private Long productId;
+
     private Integer quantity;
 
     private LocalDateTime lastUpdate;
