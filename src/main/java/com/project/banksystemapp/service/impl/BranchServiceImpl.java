@@ -25,10 +25,12 @@ public class BranchServiceImpl implements BranchService {
     private final StoreRepository storeRepository;
     private final UserService userService;
 
+    private static final String BRANCH_NOT_FOUND = "Branch not found";
+
     /* ========= CREATE ========= */
 
     @Override
-    public BranchDto createBranch(BranchDto dto, User user) throws UserException {
+    public BranchDto createBranch(BranchDto dto) throws UserException {
 
         User currentUser = userService.getCurrentUser();
 
@@ -42,13 +44,13 @@ public class BranchServiceImpl implements BranchService {
     }
 
     @Override
-    public BranchDto updateBranch(Long id, BranchDto branchDto, User user) {
+    public BranchDto updateBranch(Long id, BranchDto branchDto) {
         Branch branch = branchRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Branch not found"));
+                .orElseThrow(() -> new EntityNotFoundException(BRANCH_NOT_FOUND));
 
         Store store = branch.getStore();
 
-        BranchMapper.updateEntity(branch, branchDto, store, user);
+        BranchMapper.updateEntity(branch, branchDto, store);
         Branch updated = branchRepository.save(branch);
 
         return BranchMapper.toDto(updated);
@@ -57,7 +59,7 @@ public class BranchServiceImpl implements BranchService {
     @Override
     public void deleteBranch(Long id) {
         Branch branch = branchRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Branch not found"));
+                .orElseThrow(() -> new EntityNotFoundException(BRANCH_NOT_FOUND));
 
         branchRepository.delete(branch);
     }
@@ -77,7 +79,7 @@ public class BranchServiceImpl implements BranchService {
     @Override
     public BranchDto getBranchById(Long id) {
         Branch branch = branchRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Branch not found"));
+                .orElseThrow(() -> new EntityNotFoundException(BRANCH_NOT_FOUND));
 
         return BranchMapper.toDto(branch);
     }

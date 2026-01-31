@@ -3,7 +3,6 @@ package com.project.banksystemapp.mapper;
 
 import com.project.banksystemapp.modal.Branch;
 import com.project.banksystemapp.modal.Store;
-import com.project.banksystemapp.modal.User;
 import com.project.banksystemapp.payload.dto.BranchDto;
 
 import java.time.LocalDateTime;
@@ -65,8 +64,7 @@ public class BranchMapper {
     public static void updateEntity(
             Branch branch,
             BranchDto dto,
-            Store store,
-            User manager
+            Store store
     ) {
         if (branch == null || dto == null) return;
 
@@ -81,10 +79,6 @@ public class BranchMapper {
 
         if (store != null) {
             branch.setStore(store);
-        }
-
-        if (manager != null) {
-            branch.setManager(manager);
         }
     }
 }
