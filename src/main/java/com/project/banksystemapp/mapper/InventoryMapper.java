@@ -10,7 +10,10 @@ import java.time.LocalDateTime;
 
 public final class InventoryMapper {
 
-    public InventoryDto toDto(Inventory inventory) {
+    private InventoryMapper() {
+    }
+
+    public static InventoryDto toDto(Inventory inventory) {
         if (inventory == null) return null;
 
         return InventoryDto.builder()
@@ -24,7 +27,7 @@ public final class InventoryMapper {
                 .build();
     }
 
-    public Inventory toEntity(InventoryDto inventoryDto,
+    public static Inventory toEntity(InventoryDto inventoryDto,
                               Branch branch,
                               Product product
     ) {
@@ -36,8 +39,8 @@ public final class InventoryMapper {
                 .build();
     }
 
-    public void updateEntity(Inventory inventory, Integer quantity) {
-        inventory.setQuantity(quantity);
+    public static void updateEntity(Inventory inventory, InventoryDto inventoryDto) {
+        inventory.setQuantity(inventoryDto.getQuantity());
         inventory.setLastUpdate(LocalDateTime.now());
     }
 
