@@ -1,17 +1,64 @@
 package com.project.banksystemapp.service.impl;
 
 import com.project.banksystemapp.domain.UserRole;
+import com.project.banksystemapp.mapper.UserMapper;
+import com.project.banksystemapp.modal.Branch;
+import com.project.banksystemapp.modal.Store;
 import com.project.banksystemapp.modal.User;
 import com.project.banksystemapp.payload.dto.UserDto;
+import com.project.banksystemapp.repository.BranchRepository;
+import com.project.banksystemapp.repository.StoreRepository;
+import com.project.banksystemapp.repository.UserRepository;
 import com.project.banksystemapp.service.EmployeeService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
+@RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
+
+    private final UserRepository userRepository;
+    private final StoreRepository storeRepository;
+    private final BranchRepository branchRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final BranchServiceImpl branchServiceImpl;
 
     @Override
     public UserDto createStoreEmployee(UserDto employee, Long storeId) {
-        return null;
+        Store store = storeRepository.findByStoreAdminId(storeId)
+                .orElseThrow(
+                        () -> new IllegalArgumentException("Store not found")
+                );
+
+        Branch branch = null;
+
+        if(employee.getRole()==UserRole.ROLE_BRANCH_MANAGER){
+            if(employee.getBranchId()==null){
+                throw new IllegalArgumentException("Branch ID is required to create branch manager");
+            }
+            branch = branchRepository.findById(employee.getBranchId())
+                    .orElseThrow(
+                            () -> new IllegalArgumentException("Branch not found")
+                    );
+        }
+
+        User user = UserMapper.toEntity(employee);
+        user.setStore(store);
+        user.setBranch(branch);
+        user.setStore(store);
+        user.setPassword(passwordEncoder.encode(employee.getPassword()));
+
+        User savedUser = userRepository.save(user);
+
+        if(savedUser.getRole()==UserRole.ROLE_BRANCH_MANAGER){
+            branch.setManager(savedUser);
+            branchRepository.save(branch);
+        }
+
+        return UserMapper.toDto(savedUser);
     }
 
     @Override
