@@ -63,7 +63,21 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public UserDto createBranchEmployee(UserDto employee, Long branchId) {
-        return null;
+        Branch branch = branchRepository.findById(branchId)
+                .orElseThrow(
+                        () -> new IllegalArgumentException("Branch not found with id: " + branchId)
+                );
+
+        if(employee.getRole()==UserRole.ROLE_BRANCH_CASHIER ||
+            employee.getRole()==UserRole.ROLE_BRANCH_MANAGER) {
+
+            User user = UserMapper.toEntity(employee);
+            user.setBranch(branch);
+            user.setPassword(passwordEncoder.encode(employee.getPassword()));
+            return UserMapper.toDto(userRepository.save(user));
+        }
+
+        throw new IllegalArgumentException("Branch role not supported");
     }
 
     @Override
