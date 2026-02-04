@@ -54,6 +54,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         User savedUser = userRepository.save(user);
 
         if(savedUser.getRole()==UserRole.ROLE_BRANCH_MANAGER){
+            assert branch != null;
             branch.setManager(savedUser);
             branchRepository.save(branch);
         }
@@ -82,21 +83,61 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public User updateEmployee(UserDto employee, Long employeeId) {
-        return null;
+        User existingEmployee = userRepository.findById(employeeId)
+                .orElseThrow(
+                        () -> new IllegalArgumentException("Employee not found with id: " + employeeId)
+                );
+
+        Branch branch = branchRepository.findById(employee.getBranchId())
+                .orElseThrow(
+                        () -> new IllegalArgumentException("Branch not found with id: " + employee.getBranchId())
+                );
+
+        existingEmployee.setEmail(employee.getEmail());
+        existingEmployee.setRole(employee.getRole());
+        existingEmployee.setPassword(employee.getPassword());
+        existingEmployee.setRole(employee.getRole());
+        existingEmployee.setBranch(branch);
+
+        return userRepository.save(existingEmployee);
     }
 
     @Override
     public void deleteEmployee(Long employeeId) {
 
+        User existingEmployee = userRepository.findById(employeeId)
+                .orElseThrow(
+                        () -> new IllegalArgumentException("Employee not found with id: " + employeeId)
+                );
+        userRepository.delete(existingEmployee);
     }
 
     @Override
     public List<User> findStoreEmployees(Long storeId, UserRole role) {
-        return List.of();
+
+        Store store = storeRepository.findByStoreAdminId(storeId)
+                .orElseThrow(
+                        () -> new IllegalArgumentException("Store not found")
+                );
+
+        return userRepository.findByStore(store).stream()
+                .filter(
+                        user -> role==null||user.getRole()==role
+                )
+                .toList();
     }
 
     @Override
     public List<User> findBranchEmployees(Long branchId, UserRole role) {
-        return List.of();
+        Branch branch = branchRepository.findById(branchId)
+                .orElseThrow(
+                        () -> new IllegalArgumentException("Branch not found with id: " + branchId)
+                );
+
+        return userRepository.findByBranch(branch).stream()
+                .filter(
+                        user -> role==null||user.getRole()==role
+                )
+                .toList();
     }
 }
