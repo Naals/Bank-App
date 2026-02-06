@@ -12,7 +12,7 @@ public interface EmployeeService {
     UserDto createBranchEmployee(UserDto employee, Long branchId);
     User updateEmployee(UserDto employee, Long employeeId);
     void deleteEmployee(Long employeeId);
-    List<User> findStoreEmployees(Long storeId, UserRole role);
-    List<User> findBranchEmployees(Long branchId, UserRole role);
+    List<UserDto> findStoreEmployees(Long storeId, UserRole role);
+    List<UserDto> findBranchEmployees(Long branchId, UserRole role);
 
 }

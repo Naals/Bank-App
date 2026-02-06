@@ -24,7 +24,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final StoreRepository storeRepository;
     private final BranchRepository branchRepository;
     private final PasswordEncoder passwordEncoder;
-    private final BranchServiceImpl branchServiceImpl;
 
     @Override
     public UserDto createStoreEmployee(UserDto employee, Long storeId) {
@@ -113,7 +112,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<User> findStoreEmployees(Long storeId, UserRole role) {
+    public List<UserDto> findStoreEmployees(Long storeId, UserRole role) {
 
         Store store = storeRepository.findByStoreAdminId(storeId)
                 .orElseThrow(
@@ -123,12 +122,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         return userRepository.findByStore(store).stream()
                 .filter(
                         user -> role==null||user.getRole()==role
+                ).map(
+                        UserMapper::toDto
                 )
                 .toList();
     }
 
     @Override
-    public List<User> findBranchEmployees(Long branchId, UserRole role) {
+    public List<UserDto> findBranchEmployees(Long branchId, UserRole role) {
         Branch branch = branchRepository.findById(branchId)
                 .orElseThrow(
                         () -> new IllegalArgumentException("Branch not found with id: " + branchId)
@@ -137,6 +138,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         return userRepository.findByBranch(branch).stream()
                 .filter(
                         user -> role==null||user.getRole()==role
+                ).map(
+                        UserMapper::toDto
                 )
                 .toList();
     }
