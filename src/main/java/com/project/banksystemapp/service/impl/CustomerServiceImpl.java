@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -16,31 +17,48 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer createCustomer(Customer customer) {
-        return null;
+        return customerRepository.save(customer);
     }
 
     @Override
     public Customer updateCustomer(Long id, Customer customer) {
-        return null;
+        Customer customerToUpdate = customerRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Customer not found")
+        );
+
+        customer.setFullName(customerToUpdate.getFullName());
+        customer.setEmail(customerToUpdate.getEmail());
+        customer.setPhone(customerToUpdate.getPhone());
+
+        return customerRepository.save(customer);
     }
 
     @Override
     public void deleteCustomer(Long id) {
+        Customer customer = customerRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Customer not found")
+        );
 
+        customerRepository.delete(customer);
     }
 
     @Override
     public Customer getCustomer(Long id) {
-        return null;
+
+        return customerRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Customer not found")
+        );
     }
 
     @Override
     public List<Customer> getAllCustomers() {
-        return List.of();
+        return customerRepository.findAll();
     }
 
     @Override
-    public List<Customer> searchCustomers(String keyword) {
-        return List.of();
+    public List<Customer> searchCustomers(Map<String, String> keywords) {
+        return customerRepository.findByFullNameContainingIgnoreCaseOrEmailContainingIgnoreCaseOrPhoneContainingIgnoreCase(
+                keywords.get("name"), keywords.get("email"), keywords.get("phone")
+        );
     }
 }

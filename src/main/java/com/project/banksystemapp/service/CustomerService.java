@@ -3,6 +3,7 @@ package com.project.banksystemapp.service;
 import com.project.banksystemapp.modal.Customer;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CustomerService {
 
@@ -11,5 +12,5 @@ public interface CustomerService {
     void deleteCustomer(Long id);
     Customer getCustomer(Long id);
     List<Customer> getAllCustomers();
-    List<Customer> searchCustomers(String keyword);
+    List<Customer> searchCustomers(Map<String, String> keywords);
 }
