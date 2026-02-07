@@ -25,6 +25,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final BranchRepository branchRepository;
     private final PasswordEncoder passwordEncoder;
 
+    private static final String BRANCH_NOT_FOUND = "Branch not found with id:";
+
     @Override
     public UserDto createStoreEmployee(UserDto employee, Long storeId) {
         Store store = storeRepository.findByStoreAdminId(storeId)
@@ -65,7 +67,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public UserDto createBranchEmployee(UserDto employee, Long branchId) {
         Branch branch = branchRepository.findById(branchId)
                 .orElseThrow(
-                        () -> new IllegalArgumentException("Branch not found with id: " + branchId)
+                        () -> new IllegalArgumentException(BRANCH_NOT_FOUND + branchId)
                 );
 
         if(employee.getRole()==UserRole.ROLE_BRANCH_CASHIER ||
@@ -89,7 +91,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         Branch branch = branchRepository.findById(employee.getBranchId())
                 .orElseThrow(
-                        () -> new IllegalArgumentException("Branch not found with id: " + employee.getBranchId())
+                        () -> new IllegalArgumentException(BRANCH_NOT_FOUND + employee.getBranchId())
                 );
 
         existingEmployee.setEmail(employee.getEmail());
@@ -132,7 +134,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<UserDto> findBranchEmployees(Long branchId, UserRole role) {
         Branch branch = branchRepository.findById(branchId)
                 .orElseThrow(
-                        () -> new IllegalArgumentException("Branch not found with id: " + branchId)
+                        () -> new IllegalArgumentException(BRANCH_NOT_FOUND + branchId)
                 );
 
         return userRepository.findByBranch(branch).stream()
