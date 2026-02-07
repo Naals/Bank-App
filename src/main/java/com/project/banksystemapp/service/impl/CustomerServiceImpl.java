@@ -1,11 +1,19 @@
 package com.project.banksystemapp.service.impl;
 
 import com.project.banksystemapp.modal.Customer;
+import com.project.banksystemapp.repository.CustomerRepository;
 import com.project.banksystemapp.service.CustomerService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
+@RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
+
+    private final CustomerRepository customerRepository;
+
     @Override
     public Customer createCustomer(Customer customer) {
         return null;
