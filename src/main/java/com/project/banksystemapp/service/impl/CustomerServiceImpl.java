@@ -7,13 +7,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
-
 @Service
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
+    private static final String CUSTOMER_NOT_FOUND = "Customer Not Found";
 
     @Override
     public Customer createCustomer(Customer customer) {
@@ -22,21 +21,21 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer updateCustomer(Long id, Customer customer) {
-        Customer customerToUpdate = customerRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("Customer not found")
-        );
+        Customer customerToUpdate = customerRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException(CUSTOMER_NOT_FOUND));
 
-        customer.setFullName(customerToUpdate.getFullName());
-        customer.setEmail(customerToUpdate.getEmail());
-        customer.setPhone(customerToUpdate.getPhone());
+        customerToUpdate.setFullName(customer.getFullName());
+        customerToUpdate.setEmail(customer.getEmail());
+        customerToUpdate.setPhone(customer.getPhone());
 
-        return customerRepository.save(customer);
+        return customerRepository.save(customerToUpdate);
     }
+
 
     @Override
     public void deleteCustomer(Long id) {
         Customer customer = customerRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("Customer not found")
+                () -> new IllegalArgumentException(CUSTOMER_NOT_FOUND)
         );
 
         customerRepository.delete(customer);
@@ -46,7 +45,7 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer getCustomer(Long id) {
 
         return customerRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("Customer not found")
+                () -> new IllegalArgumentException(CUSTOMER_NOT_FOUND)
         );
     }
 
@@ -56,9 +55,13 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<Customer> searchCustomers(Map<String, String> keywords) {
-        return customerRepository.findByFullNameContainingIgnoreCaseOrEmailContainingIgnoreCaseOrPhoneContainingIgnoreCase(
-                keywords.get("name"), keywords.get("email"), keywords.get("phone")
-        );
+    public List<Customer> searchCustomers(String name, String email, String phone) {
+        return customerRepository
+                .findByFullNameContainingIgnoreCaseOrEmailContainingIgnoreCaseOrPhoneContainingIgnoreCase(
+                        name == null ? "" : name,
+                        email == null ? "" : email,
+                        phone == null ? "" : phone
+                );
     }
+
 }
