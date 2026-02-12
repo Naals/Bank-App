@@ -1,5 +1,6 @@
 package com.project.banksystemapp.modal;
 
+import com.project.banksystemapp.domain.PaymentType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -33,6 +34,8 @@ public class Order {
 
     @OneToMany
     private List<OrderItem> items;
+
+    private PaymentType paymentType;
 
     @PrePersist
     protected void onCreate() {

@@ -1,5 +1,7 @@
 package com.project.banksystemapp.payload.dto;
 
+import com.project.banksystemapp.modal.Customer;
+import com.project.banksystemapp.domain.PaymentType;
 import lombok.Builder;
 import lombok.Data;
 
@@ -20,7 +22,9 @@ public class OrderDto {
     private Long customerId;
 
     private BranchDto branch;
-    private UserDto customer;
+    private Customer customer;
+
+    private PaymentType paymentType;
 
     private List<OrderItemDto> items;
 }

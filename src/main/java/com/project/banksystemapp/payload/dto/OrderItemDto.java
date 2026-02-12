@@ -1,6 +1,5 @@
 package com.project.banksystemapp.payload.dto;
 
-import com.project.banksystemapp.modal.Product;
 import lombok.Builder;
 import lombok.Data;
 
@@ -14,8 +13,9 @@ public class OrderItemDto {
 
     private Double price;
 
+    private ProductDto product;
 
-    private Product product;
+    private Long productId;
 
     private Long orderId;
 }
