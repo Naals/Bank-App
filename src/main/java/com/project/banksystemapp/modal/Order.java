@@ -33,4 +33,9 @@ public class Order {
 
     @OneToMany
     private List<OrderItem> items;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
 }
