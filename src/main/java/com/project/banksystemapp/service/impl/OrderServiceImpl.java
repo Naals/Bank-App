@@ -12,8 +12,11 @@ import com.project.banksystemapp.domain.PaymentType;
 import com.project.banksystemapp.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.availability.ApplicationAvailabilityBean;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -23,7 +26,6 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final UserService userService;
     private final ProductRepository productRepository;
-
 
     @Override
     public OrderDto createOrder(OrderDto orderDto) throws UserException {
@@ -72,36 +74,64 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDto getOrderById(Long id) {
-        return null;
+        return orderRepository.findById(id).map(OrderMapper::toDto).orElseThrow(
+                () -> new EntityNotFoundException("Order not found with id: " + id)
+        );
     }
 
     @Override
-    public List<OrderDto> getOrdersByBranch(Long branchId, Long cashierId, PaymentType paymentType, OrderStatus status) {
-        return List.of();
+    public List<OrderDto> getOrdersByBranch(
+            Long branchId, Long customerId,Long cashierId, PaymentType paymentType, OrderStatus status) {
+        return orderRepository.findByBranchId(branchId)
+                .stream()
+                .filter(order -> customerId == null ||
+                        (order.getCustomer() != null &&
+                                order.getCustomer().getId().equals(customerId)
+                        )
+                ).filter(order -> cashierId == null ||
+                        (order.getCashier() != null &&
+                                order.getCashier().getId().equals(cashierId)
+                        )
+                ).filter(order -> paymentType == null ||
+                        (order.getPaymentType() == (paymentType)
+                        )
+                ).map(OrderMapper::toDto).toList();
     }
 
     @Override
     public List<OrderDto> getOrderByCashier(Long cashierId) {
-        return List.of();
+        return orderRepository.findByCashierId(cashierId)
+                .stream().map(OrderMapper::toDto).toList();
     }
 
     @Override
     public void deleteOrder(Long id) {
-
+        Order order = orderRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Order not found with id: " + id)
+        );
+        orderRepository.delete(order);
     }
 
     @Override
     public List<OrderDto> getTodayOrdersByBranch(Long branchId) {
-        return List.of();
+        LocalDate today = LocalDate.now();
+        LocalDateTime start = today.atStartOfDay();
+        LocalDateTime end = today.plusDays(1).atStartOfDay();
+
+        return orderRepository.findByBranchIdAndCreatedAtBetween(
+                branchId, start, end
+        ).stream().map(OrderMapper::toDto).toList();
     }
 
     @Override
-    public List<OrderDto> getOrderByCustomerId(Long cashierId) {
-        return List.of();
+    public List<OrderDto> getOrderByCustomerId(Long customerId) {
+        return orderRepository.findByCustomerId(customerId)
+                .stream().map(OrderMapper::toDto).toList();
     }
 
     @Override
     public List<OrderDto> getTop5RecentOrderByBranch(Long branchId) {
-        return List.of();
+        return orderRepository.findTop5byBranchIdOrderByCreatedAtDesc(branchId)
+                .stream().map(OrderMapper::toDto).toList();
     }
 }

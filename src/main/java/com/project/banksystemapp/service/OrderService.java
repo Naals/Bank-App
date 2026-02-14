@@ -12,6 +12,7 @@ public interface OrderService {
     OrderDto createOrder(OrderDto orderDto) throws UserException;
     OrderDto getOrderById(Long id);
     List<OrderDto> getOrdersByBranch(Long branchId,
+                                     Long customerId,
                                      Long cashierId,
                                      PaymentType paymentType,
                                      OrderStatus status
@@ -19,7 +20,7 @@ public interface OrderService {
     List<OrderDto> getOrderByCashier(Long cashierId);
     void deleteOrder(Long id);
     List<OrderDto> getTodayOrdersByBranch(Long branchId);
-    List<OrderDto> getOrderByCustomerId(Long cashierId);
+    List<OrderDto> getOrderByCustomerId(Long customerId);
     List<OrderDto> getTop5RecentOrderByBranch(Long branchId);
 
 }
