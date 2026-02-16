@@ -1,11 +1,5 @@
 package com.project.banksystemapp.payload.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.project.banksystemapp.modal.Branch;
-import com.project.banksystemapp.modal.Order;
-import com.project.banksystemapp.modal.ShiftReport;
-import com.project.banksystemapp.modal.User;
-import jakarta.persistence.ManyToOne;
 import lombok.Builder;
 import lombok.Data;
 
@@ -18,6 +12,7 @@ public class RefundDto {
     private Long id;
 
     private OrderDto order;
+    private Long orderId;
 
     private String reason;
 
@@ -26,8 +21,10 @@ public class RefundDto {
     private Long shiftReportId;
 
     private UserDto cashier;
+    private String cashierName;
 
     private BranchDto branch;
+    private Long branchId;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
