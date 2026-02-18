@@ -1,8 +1,6 @@
 package com.project.banksystemapp.modal;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.EnumNaming;
-import com.project.banksystemapp.domain.StoreStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,6 +21,7 @@ public class Refund {
 
     @ManyToOne
     private Order order;
+    private Long orderId;
 
     private String reason;
 

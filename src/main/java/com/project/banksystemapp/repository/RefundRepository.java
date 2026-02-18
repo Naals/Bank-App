@@ -1,7 +1,6 @@
 package com.project.banksystemapp.repository;
 
 import com.project.banksystemapp.modal.Refund;
-import com.project.banksystemapp.modal.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;
@@ -9,8 +8,8 @@ import java.util.List;
 
 public interface RefundRepository extends JpaRepository<Refund, Long> {
 
-    List<Refund> findByCashierAndCreatedAtBetween(
-            User cashier,
+    List<Refund> findByCashierIdAndCreatedAtBetween(
+            Long cashier,
             LocalDateTime from,
             LocalDateTime to
     );
