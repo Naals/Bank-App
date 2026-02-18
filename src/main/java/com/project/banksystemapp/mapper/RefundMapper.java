@@ -7,7 +7,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class RefundMapper {
 
-    public RefundDto toDto(Refund refund) {
+    private RefundMapper() {}
+
+    public static RefundDto toDto(Refund refund) {
         if (refund == null) {
             return null;
         }
