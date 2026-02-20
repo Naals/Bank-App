@@ -27,11 +27,11 @@ public class RefundServiceImpl implements RefundService {
     private final RefundRepository refundRepository;
 
     @Override
-    public RefundDto createRefund(Refund refund) throws UserException, Exception {
+    public RefundDto createRefund(RefundDto refund) throws UserException {
         User cashier = userService.getCurrentUser();
 
         Order order = orderRepository.findById(refund.getOrderId()).orElseThrow(
-                () -> new Exception("Order not found with id: " + refund.getOrderId())
+                () -> new EntityNotFoundException("Order not found with id: " + refund.getOrderId())
         );
 
         Branch branch = order.getBranch();
