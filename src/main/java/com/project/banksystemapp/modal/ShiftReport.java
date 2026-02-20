@@ -1,9 +1,7 @@
 package com.project.banksystemapp.modal;
 
-import com.razorpay.Payment;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.security.core.parameters.P;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -41,7 +39,7 @@ public class ShiftReport {
     private List<Product> topSellingProducts;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Product> recentOrders;
+    private List<Order> recentOrders;
 
     @OneToMany(mappedBy = "shiftReport", cascade = CascadeType.ALL)
     private List<Refund> refunds;
