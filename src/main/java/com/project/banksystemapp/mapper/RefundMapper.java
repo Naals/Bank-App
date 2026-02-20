@@ -5,7 +5,7 @@ import com.project.banksystemapp.payload.dto.RefundDto;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RefundMapper {
+public final class RefundMapper {
 
     private RefundMapper() {}
 
