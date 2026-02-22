@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.*;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -49,4 +50,41 @@ public class ShiftReportController {
                 shiftReportService.getShiftByCashierAndDate(cashierId, startDate)
         );
     }
+
+    @GetMapping("/cashier/{cashierId}")
+    public ResponseEntity<List<ShiftReportDto>> getShiftReportByCashier(
+            @PathVariable Long cashierId
+    ) {
+        return ResponseEntity.ok(
+                shiftReportService.getShiftReportsByCashierId(cashierId)
+        );
+    }
+
+    @GetMapping("/branch/{branchId}")
+    public ResponseEntity<List<ShiftReportDto>> getShiftReportByBranch(
+            @PathVariable Long branchId
+    ) {
+        return ResponseEntity.ok(
+                shiftReportService.getShiftReportsByBranchId(branchId)
+        );
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ShiftReportDto> getShiftReportById(
+            @PathVariable Long id
+    ) {
+        return ResponseEntity.ok(
+                shiftReportService.getShiftReportById(id)
+        );
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<ShiftReportDto>> getAllShiftReports(
+    ) {
+        return ResponseEntity.ok(
+                shiftReportService.getAllShiftReports()
+        );
+    }
+
+
 }
