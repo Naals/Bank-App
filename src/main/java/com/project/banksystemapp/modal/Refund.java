@@ -21,7 +21,6 @@ public class Refund {
 
     @ManyToOne
     private Order order;
-    private Long orderId;
 
     private String reason;
 
