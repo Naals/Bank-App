@@ -23,6 +23,7 @@ public final class ShiftReportMapper {
                 .shiftEnd(shiftReport.getShiftEnd())
                 .totalSales(shiftReport.getTotalSales())
                 .totalOrders(shiftReport.getTotalOrders())
+                .totalRefunds(shiftReport.getTotalRefunds())
                 .netSale(shiftReport.getNetSale())
                 .totalOrders(shiftReport.getTotalOrders())
                 .cashier(UserMapper.toDto(shiftReport.getCashier()))
